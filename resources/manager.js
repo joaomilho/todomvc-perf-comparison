@@ -145,7 +145,7 @@ google.load("visualization", "1", {packages:["corechart"]});
 function drawChart(results) {
     var rawData = [ [ "Project" , "Time", { role: "style"} ] ];
     for (var key in results) {
-        var color = key === 'Elm' ? 'rgb(140, 217, 217)': 'rgb(140, 217, 140)';
+        var color = key === 'ACT' ? 'rgb(69, 146, 251)': 'rgb(200, 200, 200)';
         rawData.push([ key, Math.round(results[key] / runs.length), color ]);
     }
     var data = google.visualization.arrayToDataTable(rawData);
@@ -163,9 +163,9 @@ function drawChart(results) {
         " " + runWord + " (lower is better)";
 
     var options = {
-	title: "TodoMVC Benchmark",
-	width: 600,
-	height: 400,
+      	title: "TodoMVC Benchmark",
+      	width: 900,
+      	height: 600,
         legend: { position: "none" },
         backgroundColor: 'transparent',
         hAxis: {title: title}
