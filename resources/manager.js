@@ -29,7 +29,8 @@ function createUIForSuites(suites, onstep, onrun) {
         var checkbox = document.createElement('input');
         checkbox.id = suite.name;
         checkbox.type = 'checkbox';
-        checkbox.checked = true;
+        //
+        checkbox.checked = true //(suite.name === 'ACT' || suite.name === 'Mercury');
         checkbox.onchange = (function (suite, checkbox) { return function () { suite.disabled = !checkbox.checked; } })(suite, checkbox);
         checkbox.onchange();
         checkboxes.push(checkbox);

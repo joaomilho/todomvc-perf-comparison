@@ -2,6 +2,52 @@ var numberOfItemsToAdd = 100;
 var Suites = [];
 
 Suites.push({
+
+    name: 'ACT',
+    url: 'todomvc/act/index.html',
+    version: '0.0.1',
+    prepare: function (runner, contentWindow, contentDocument) {
+        window.localStorage.setItem('act', 'null')
+        return runner.waitForElement('.new-todo').then(function (element) {
+            element.focus();
+
+            return element;
+        });
+    },
+
+    tests: [
+        new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
+            var appView = contentWindow.appView;
+            var keypressEvent = document.createEvent('Event');
+            keypressEvent.initEvent('keyup', true, true);
+            keypressEvent.keyCode = 13;
+            for (var i = 0; i < numberOfItemsToAdd; i++) {
+                newTodo.value = 'Something to do ' + i;
+                newTodo.dispatchEvent(keypressEvent)
+            }
+        }),
+        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var clickE = document.createEvent('Event');
+            clickE.initEvent('click', true, true);
+
+            var checkboxes = contentDocument.querySelectorAll('.toggle');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].dispatchEvent(clickE);
+            }
+        }),
+        new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var clickE = document.createEvent('Event');
+            clickE.initEvent('click', true, true);
+
+            var deleteButtons = contentDocument.querySelectorAll('.destroy');
+            for (var i = 0; i < deleteButtons.length; i++)
+                deleteButtons[i].dispatchEvent(clickE);
+        })
+    ]
+});
+
+Suites.push({
+
     name: 'Backbone',
     url: 'todomvc/backbone/index.html',
     version: '1.1.2',
